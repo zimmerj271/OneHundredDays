@@ -28,9 +28,10 @@ scissors = '''
 '''
 
 choice = input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors. ")
-choice = int(choice)
+choice = int(float(choice))
 while choice < 0 or choice > 2 or type(choice) is not int:
-    choice = input("Please enter an integer, 0 for Rock, 1 for Paper, 2 for Scissors")
+    choice = input("Please enter an integer, 0 for Rock, 1 for Paper, 2 for Scissors. ")
+    choice = int(float(choice))
 computer_choice = randint(0,2)
 selection = [rock, paper, scissors]
 selection_text = ['Rock', 'Paper', 'Scissors']
