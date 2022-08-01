@@ -24,7 +24,8 @@ class ScoreTracker:
             return None
 
     def unnamed_states(self):
-        unnamed_list = list(set(self.all_states) - set(self.correct_states))
+        # unnamed_list = list(set(self.all_states) - set(self.correct_states)) # alternative
+        unnamed_list = [state for state in self.all_states if state not in self.correct_states]
         unnamed_df = pd.DataFrame(unnamed_list, columns=["state"])
         unnamed_df.to_csv("unnamed_states.csv", header=True, index=False)
 
