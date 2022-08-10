@@ -1,5 +1,9 @@
+import os
 import requests
 from twilio.rest import Client
+from twilio.http.http_client import TwilioHttpClient
+
+
 # import json
 
 OWM_endpoint = "http://api.openweathermap.org/data/2.5/onecall"
@@ -19,13 +23,6 @@ weather_params = {
 response = requests.get(url=OWM_endpoint, params=weather_params)
 response.raise_for_status()
 data = response.json()
-# Save weather data to json file
-# with open("weather.json", 'w') as file:
-#     json.dump(data, file)
-
-# Open saved weather data from json file
-# with open("weather.json", 'r') as file:
-#     data = json.load(file)
 
 
 will_rain_today = False
@@ -36,7 +33,9 @@ for hour in weather_slice:
         will_rain_today = True
 
 if will_rain_today:
-    twilio_client = Client(TWILIO_ACC_SID, TWILIO_AUTH_TOKEN)
+    proxy_client = TwilioHttpClient()  # Add Twilio proxy client to use Twilio API in Python Anywhere
+    proxy_client.session.proxies = {'https': os.environ['https_proxy']}  # Add proxy settings to client session
+    twilio_client = Client(TWILIO_ACC_SID, TWILIO_AUTH_TOKEN, http_client=proxy_client)
     message = twilio_client.messages.create(
         body="It's going to rain today.  Remember to bring an ☂️",
         from_="+12166775599",
