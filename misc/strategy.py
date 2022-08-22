@@ -6,7 +6,10 @@ from abc import ABC, abstractmethod
 # Example of using a Strategy Design Pattern.  This design pattern creates an interface which is used to perform
 # different strategies.  Using abstract classes is a common method in OOP to enforce behavior with each new
 # strategy class created from a parent class.
-
+# Strategy patterns allow for the decoupling of code: coupling means that the code is heavily tied to own particular
+# purpose. It also means that it's very hard or not possible to use the code for other purposes.
+# The strategy pattern allows us to take things that are application specific, and move them into specific small
+# classes. This enables us to update locations to be able to work with any strategy and thus any application.
 
 def generate_id(length=8):
     # helper function for generating an id
@@ -24,7 +27,7 @@ class SupportTicket:
         self.issue = issue
 
 
-class TicketOrderingStrategy(ABC):
+class TicketOrderingStrategy(ABC):  # This is the Interface of the strategy pattern
     """Use Abstract Base Classes to define a set of classes that create different ordering strategies for the tickets.
     Inheriting from the ABC class and using the abstractmethod decorator enforces the implementation of the
     create_ordering method for each subsequent child class of TicketOrderingStrategy"""
@@ -33,7 +36,7 @@ class TicketOrderingStrategy(ABC):
         pass
 
 
-class FIFOorderingStrategy(TicketOrderingStrategy):
+class FIFOorderingStrategy(TicketOrderingStrategy):  # This is a concrete strategy that inputs to the strategy
     """Child class of TicketOrderingStrategy that will take a list and return a list of elements in the same order."""
     def create_ordering(self, list: List[SupportTicket]) -> List[SupportTicket]:
         return list.copy()
