@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    background-color: #FCF8E8;
+    text-align: center;
+    font-family: "Merriweather", serif;
+    
+    /* Use flexbox to make all child divs extend across viewing port */
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+hr {
+  border-style: none;
+  border-top-style: dotted;
+  border-color: #ECB390;
+  border-width: 5px;
+  width: 5%;
+  margin: 5% auto;
+}
+
+h1 {
+  color: #FCF8E8;
+  width: 40%;
+  margin: 50px auto 0 auto;
+  font-family: 'Sacramento', cursive;
+  font-size: 562%;  /* 16px is equivalent to 100% and 1em, 562.5% -> 90px, 5.625em -> 90px */
+}
+
+h2 {
+  color: #94B49F;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.75rem;
+  margin: 5% 0%;
+  /* margin-top: 0; */
+}
+
+.subtitle {
+  color: #FCF8E8
+}
+
+h3 {
+  color: #94B49F;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.top-container {
+    background-color: #94B49F;
+    padding-top: 100px;
+    position: relative; /* needed to make child elements position absolute within it */
+    margin-bottom: 0;
+}
+
+.data {
+    text-decoration: underline;
+}
+
+.bottom_cloud {
+  position: absolute;
+  left: 25%;
+}
+
+.top_cloud {
+  position: absolute;
+  right: 20%;
+  top: 8%
+  /* bottom: 50px; */
+}
+
+/* .middle_container {
+  margin-bottom: 5%;
+} */
+
+.carpenter {
+  width: auto;
+  height: auto;
+  margin-top: 5%;
+  /* image color blue: 4d6d87, brown: c68842*/
+}
+
+/* .middle_container {
+  height: 100%;
+} */
+
+.skill-row {
+  width: 50%;
+  margin: 100px auto;
+  /* text-align: left; */
+}
+
+.skill-row {
+  text-align: left;
+  line-height: 2;
+}
+
+.skill-row > img {
+  width: 25%;
+  margin: 0 5%;
+}
+
+.analytics-img {
+  float: left;
+}
+
+.database-img {
+  float: right;
+}
+
+button {
+  background-color: #94B49F;
+  margin-bottom: 5%;
+  border: 0;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 3% 0;
+}
+
+button > .btn {
+  /* padding: 10px; */
+  text-decoration: none;
+  color: #FCF8E8;
+  /* font-weight: bold; */
+  font-size: 16px;
+}
+
+/* alternative color pallete: 865439, C68B59, FCDEC0, 8FC1D4 */
+
+.bottom-container {
+  background-color: #CEE5D0;
+  margin-top: auto;
+  
+  /* margin-top: 3%; */
+
+}
+
+.bottom-container > a {
+  color: #94B49F;
+  text-decoration: none;
+}
+
+.bottom-container > .footer-link {
+  display: inline-block;
+  margin: 40px 2% 2% 2%;
+}
+
+.bottom-container > .credit {
+  display: block;
+}
+
+.copy {
+  color: #FCF8E8;
+}

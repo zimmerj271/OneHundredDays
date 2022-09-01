@@ -1,0 +1,49 @@
+/* Challenge: line up blocks horizontally in order yellow, blue, red */
+/* .block {
+  height: 100px;
+  width: 100px;
+  display: inline-block;
+  position: relative;
+}
+
+.red {
+  background-color: red;
+  left: 200px
+}
+
+.blue {
+  background-color: blue;
+}
+
+.yellow {
+  background-color: yellow;
+  right: 200px
+} */
+
+
+/* Challenge line up blocks diagonally touching corner to corner*/
+body {
+  margin: 0;
+}
+
+.block {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+}
+
+.red {
+  background-color: red;
+  left: 200px;
+  top: 200px;
+}
+
+.blue {
+  background-color: blue;
+  left: 100px;
+  top: 100px;
+}
+
+.yellow {
+  background-color: yellow;
+} 
