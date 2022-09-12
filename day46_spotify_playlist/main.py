@@ -1,16 +1,21 @@
-from bs4 import BeautifulSoup
-import requests
+from billboard import Billboard
+from spotify_manager import Spotify
 
-# playlist_date = input("Which year do you want to travel to (YYYY-MM-DD)? ")
-playlist_date = "2000-08-12"
-top_songs_site = f"https://www.billboard.com/charts/hot-100/{playlist_date}/"
+playlist_date = input("Which year do you want to travel to (YYYY-MM-DD)? ")  # Get date for song list
+billboard_songs = Billboard(playlist_date).song_list  # top 100 songs from Billboard for the date given
+song_list = list(billboard_songs)  # zipped object converted to list of tuples
+spotify_manager = Spotify()
+playlist_name = f"Billboard Top 100 {playlist_date}"
+playlist_description = f"Top 100 songs on the Billboard charts for the {playlist_date}"
+playlist = spotify_manager.createPlaylist(name=playlist_name, description=playlist_description)  # create the playlist on Spotify
 
-response = requests.get(top_songs_site)
-page_text = response.text
-# print(page_text)
-# with open("songs.html", "w") as file:
-#     file.write(page_text)
-soup = BeautifulSoup(page_text, "html.parser")
-listing = soup.find_all(name="li", class_="o-chart-results-list__item")
-for item in listing:
-    print(item)
+# Get track IDs for each song on the list
+track_ids = []
+for song in song_list:
+    track = song[0]
+    artist = song[1]
+    track_id = spotify_manager.getTrackID(track, artist)
+    if track_id is not None:
+        track_ids.append(track_id)
+
+spotify_manager.addSongToPlaylist(playlist_id=playlist, track_list=track_ids)  # Add the tracks to the playlist
