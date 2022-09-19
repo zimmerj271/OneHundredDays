@@ -3,13 +3,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 url = "https://tinder.com"
 user = {
     "Jack": 'korokhunter0@gmail.com',
     "Ava": 'miphasgrace20@gmail.com'
 }
-pw = "Yggdrasil-9"
+pw = os.environ("TINDER_PASSWORD")
 
 chrome_driver_path = "/Users/zimmerj/Code/OneHundredDays/chromedriver"
 service = Service(executable_path=chrome_driver_path)
