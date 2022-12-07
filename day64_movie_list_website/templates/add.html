@@ -15,4 +15,12 @@
     <h1 class="heading">Add a Movie</h1>
     {{ wtf.quick_form(form, novalidate=True) }}
 </div>
+<br><br>
+{% if movies %}
+    <div class="list-group">
+        {% for movie in movies %}
+            <a href="{{ url_for('add_movie', new_movie=movie[0]) }}" class="list-group-item list-group-item-action">{{movie[1]}}</a>
+        {% endfor %}
+    </div>
+{% endif %}
 {% endblock %}

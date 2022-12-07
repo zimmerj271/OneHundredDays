@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
-import requests
+from movie_search import MovieSearch
+import pickle
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -19,8 +20,8 @@ class Movie(db.Model):
     title = db.Column(db.String(100), unique=True, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250), nullable=True)
-    rating = db.Column(db.Float, nullable=False)
-    ranking = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Float, nullable=True)
+    ranking = db.Column(db.Integer, nullable=True)
     review = db.Column(db.String(200), nullable=True)
     img_url = db.Column(db.String(250), nullable=True)
 
@@ -34,11 +35,33 @@ class EditForm(FlaskForm):
     review = StringField('Your Review', validators=[DataRequired()])
     submit = SubmitField('Done')
 
+
 class AddForm(FlaskForm):
     title = StringField('Movie Title', validators=[DataRequired()])
     submit = SubmitField('Add Movie')
 
-# def add():
+
+def write_to_file(d: list) -> bool:
+    try:
+        with open("movies.pkl", "wb") as file:
+            pickle.dump(d, file)
+        return True
+    except OSError:
+        print("Could not open file movies.pcl")
+        return False
+
+
+def read_from_file() -> list:
+    try:
+        with open("movies.pkl", "rb") as file:
+            movies_list = pickle.load(file)
+        return movies_list
+    except OSError:
+        print("Could not open file movies.pcl")
+
+
+### This is needed to initialize the database.  Add to the /home route if the database has not been created.
+# def add_default_movie():
 #     new_movie = Movie(
 #         title="Phone Booth",
 #         year=2002,
@@ -57,8 +80,12 @@ class AddForm(FlaskForm):
 
 @app.route("/")
 def home():
-    all_movies = db.session.query(Movie).all()
+    # all_movies = db.session.query(Movie).all()
+    all_movies = Movie.query.order_by(Movie.rating).all()
+    for i in range(len(all_movies)):
+        all_movies[i].ranking = len(all_movies) - i
     return render_template("index.html", movies=all_movies)
+
 
 @app.route("/edit", methods=['GET', 'POST'])
 def edit():
@@ -73,6 +100,7 @@ def edit():
         return redirect(url_for('home'))
     return render_template("edit.html", form=edit_form)
 
+
 @app.route("/delete")
 def delete():
     movie_id = request.args.get("id")
@@ -81,12 +109,41 @@ def delete():
     db.session.commit()
     return redirect(url_for('home'))
 
+
 @app.route("/add", methods=['GET', 'POST'])
 def add():
     add_form = AddForm()
     if add_form.validate_on_submit():
-        print(add_form.title.data)
-    return render_template("add.html", form=add_form)
+        # print(add_form.title.data)
+        movie_search = MovieSearch()
+        movies = movie_search.search_movie(add_form.title.data)
+        write_to_file(movies)
+        movie_titles = []
+        movie_index = 1
+        for movie in movies:
+            movie_titles.append((movie_index, movie['original_title']))
+            movie_index += 1
+        print(movie_titles)
+        return render_template("add.html", form=add_form, movies=movie_titles)
+    return render_template("add.html", form=add_form, movies=[])
+
+
+@app.route("/add_movie")
+def add_movie():
+    indexed_movie = request.args.get('new_movie')
+    print(indexed_movie)
+    movie_list = read_from_file()
+    movie = movie_list[int(indexed_movie) - 1]
+    new_movie = Movie(
+        title=movie["original_title"],
+        year=int(movie['release_date'][:4]),
+        description=movie["overview"],
+        rating=movie['vote_average'],
+        img_url=f"https://image.tmdb.org/t/p/w500/{movie['poster_path']}"
+    )
+    db.session.add(new_movie)
+    db.session.commit()
+    return redirect(url_for('edit'))
 
 
 if __name__ == '__main__':
