@@ -1,6 +1,9 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import random
+
+# API documentation found at https://documenter.getpostman.com/view/24993269/2s8YzZRf28
+api_documentation = "https://documenter.getpostman.com/view/24993269/2s8YzZRf28"
 
 app = Flask(__name__)
 
@@ -72,15 +75,64 @@ def search_cafe():
         return jsonify(error=error_message)
 
 ## HTTP POST - Create Record
-@app.route("/add", methods=['GET', 'POST'])
+# This route will be tested in Postman by creating a POST submission
+# Be sure to select "Body" under the URL route, then the radio button
+# "x-www-form-urlencoded".  Then enter the key/value pairs for all the
+# entries to add a new cafe to the database.
+@app.route("/add", methods=['POST'])
 def add_cafe():
-    add_cafe = request.args.get("add")
+    # Create a new Cafe object
+    new_cafe = Cafe(
+        name=request.form.get("name"),
+        map_url=request.form.get("map_url"),
+        img_url=request.form.get("img_url"),
+        location=request.form.get("location"),
+        has_sockets=bool(request.form.get("has_sockets")),
+        has_toilet=bool(request.form.get("has_toilet")),
+        has_wifi=bool(request.form.get("has_wifi")),
+        can_take_calls=bool(request.form.get("can_take_calls")),
+        seats=request.form.get("seats"),
+        coffee_price=request.form.get("coffee_price")
+    )
+    db.session.add(new_cafe)  # add the Cafe object to the session
+    db.session.commit()  # commit the changes to the database
+    return jsonify(response={"success": "Successfully added the new cafe."})
 
 
 ## HTTP PUT/PATCH - Update Record
+# Example API route: /update-price/22?new_price=$5
+@app.route("/update-price/<int:id>", methods=['PATCH'])
+def update_price(id):
+    new_price = request.args.get("new_price")
+    cafe = Cafe.query.get(id)
+    if cafe:
+        cafe.coffee_price = new_price
+        db.session.commit()
+        # return success json and HTTP code 200
+        return jsonify(response={"success": f"Price of cafe {id} updated successfully."}), 200
+    else:
+        # return error json and HTTP code 404
+        return jsonify(error={"Not found": f"Cafe {id} was not found."}), 404
+
 
 ## HTTP DELETE - Delete Record
+@app.route("/report-closed/<int:id>", methods=['DELETE'])
+def remove_cafe(id):
+    api_key = request.args.get("api-key")
+    cafe = Cafe.query.get(id)
+    if not cafe:
+        return jsonify(error={"Not found": f"Cafe {id} was not found."}), 404
+    if api_key == "YourBaseBelongToUs":
+        db.session.delete(cafe)
+        db.session.commit()
+        return jsonify(response={"succes": f"Cafe {id} successfully removed."}), 200
+    else:
+        return jsonify(forbidden={"forbidden": "You do not have access."}), 403
 
+## DOCUMENTATION
+@app.route("/docs")
+def get_docs():
+    return redirect(api_documentation)
 
 if __name__ == '__main__':
     app.run(debug=True)
