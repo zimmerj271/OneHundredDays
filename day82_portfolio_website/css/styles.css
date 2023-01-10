@@ -1,0 +1,101 @@
+body {
+ text-align: center;
+}
+
+#title {
+    background-image: url("../images/alice.jpg");
+    width: 100%;
+    max-width: 3863px;
+    /*height: 2173px;*/
+    height: auto;
+    /* create parallax effect */
+    background-size: cover;
+    background-position: top center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.logo-container {
+    max-width: 64px;
+    height: 64px;
+    margin-top: 15px;
+    /*width: auto;*/
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+}
+
+.intro {
+    padding-top: 250px;
+    color: white;
+    margin-left: 5%;
+    z-index: 2;
+}
+
+.front-page {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 100px;
+    z-index: 3;
+}
+
+.block {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: saturate(50%) blur(3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    height: auto;
+    margin: 5em auto;
+}
+
+.text-block {
+    text-align: left;
+    padding: 3em;
+}
+
+.skills {
+display: flex;
+    margin: auto 3%;
+}
+
+.github-container {
+    display: flex;
+    align-items: center;
+}
+
+.github-container > p {
+    padding-top: 15px;
+}
+
+.img-container {
+    max-width: 32px;
+    height: 32px;
+    margin-right: 0.5em;
+    flex-basis: 40%;
+}
+
+.github {
+    width: 100%;
+    height: auto;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 150px;
+}
+
+.lrg-img-container {
+    max-width: 128px;
+    height: 128px;
+    margin: 2em 5em;
+}
+
+.lrg-img-container > img {
+    width: 100%;
+    height: auto;
+}
