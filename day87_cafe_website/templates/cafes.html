@@ -1,0 +1,47 @@
+{% include "header.html" %}
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3">The Best Places to Connect</span>
+                <span class="site-heading-lower">Coffee Shops</span>
+            </h1>
+        </header>
+        <!-- Navigation-->
+        {% include "navigation.html" %}
+        <section class="page-section">
+            <div class="container">
+                <div class="product-item">
+<!--                    <div class="product-item-description d-flex me-auto">-->
+                    <div class="d-flex justify-content-center">
+                        <div class="bg-faded p-5 rounded">
+                            {% for cafe in cafes %}
+                                <a href="{{ url_for('get_store', cafe_id=cafe.id) }}"><h5>{{ cafe.name }}</h5></a> <p>Seats: {{ cafe.seats }}
+                                {% if cafe.has_toilet: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/restrooms_32.png')}}">
+                                {% endif %}
+                                {% if cafe.has_wifi: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/wifi_32.png')}}">
+                                {% endif %}
+                                {% if cafe.can_take_calls: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/telephone-call_32.png')}}">
+                                {% endif %}
+                                {% if cafe.has_sockets: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/outlet.png')}}">
+                                {% endif %}
+                                </p>
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% include "footer.html" %}
+        <script>
+            $(document).ready(function(){
+                $(".active").removeClass("active");
+                $("#cafes").addClass("active");
+            })
+        </script>
+    </body>
+</html>

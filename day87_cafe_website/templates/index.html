@@ -1,0 +1,50 @@
+{% include "header.html" %}
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3">The Best Places to Connect</span>
+                <span class="site-heading-lower">Cafe Finder</span>
+            </h1>
+        </header>
+        {% include "navigation.html" %}
+        <section class="page-section clearfix">
+            <div class="container">
+                <div class="intro">
+                    <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="{{ url_for('static', filename='assets/img/intro.jpg')}}" alt="..." />
+                    <div class="intro-text left-0 text-center bg-faded p-5 rounded">
+                        <h2 class="section-heading mb-4">
+                            <span class="section-heading-upper">Fresh Coffee</span>
+                            <span class="section-heading-lower">Work and Connect</span>
+                        </h2>
+                        <p class="mb-3">Find local cafés that support the remote work movement.  The best places to maximize your productivity and network.  All cafes are curated and approved by people like you!</p>
+                        <div class="intro-button mx-auto"><a class="btn btn-primary btn-xl" href="#!">Explore Cafes</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper">Crowd Sourcing at its finest</span>
+                                <span class="section-heading-lower">How it works</span>
+                            </h2>
+                            <p class="mb-0">Look for coffee shops in your neighborhood. If you can't find any, add your favorite neighborhood coffee shop to our ever-growing database for others to discover.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% include "footer.html" %}
+        <-- Make current page active in nav bar.  -->
+        <-- There is a way to do this on-click, need to investigate more -->
+        <script>
+            $(document).ready(function(){
+                $(".active").removeClass("active");
+                $("#home").addClass("active");
+            })
+        </script>
+    </body>
+</html>

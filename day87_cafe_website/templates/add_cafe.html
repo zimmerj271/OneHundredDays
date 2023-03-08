@@ -1,0 +1,37 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+    <body>
+<!--        <header>-->
+<!--            <h1 class="site-heading text-center text-faded d-none d-lg-block">-->
+<!--                <span class="site-heading-upper text-primary mb-3">A Free Bootstrap Business Theme</span>-->
+<!--                <span class="site-heading-lower">Business Casual</span>-->
+<!--            </h1>-->
+<!--        </header>-->
+        {% include "navigation.html" %}
+        <section class="page-section cta">
+            <div class="container">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <h2 class="section-heading mb-5">
+                                {% if edit_cafe: %}
+                                    <span class="section-heading-lower"><strong>Edit Cafe</strong></span>
+                                {% else: %}
+                                    <span class="section-heading-lower"><strong>Add Cafe</strong></span>
+                                {% endif %}
+                            </h2>
+                            <div class="row">
+                                <div class="col-sm-8 mx-auto m-3">
+                                    {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                                    {% if form.errors %}
+                                    {{ form.errors }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </section>
+
+        {% include "footer.html" %}
+    </body>
+</html>

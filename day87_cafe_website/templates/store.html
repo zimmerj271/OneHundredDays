@@ -1,0 +1,58 @@
+{% include "header.html" %}
+    <style>
+        body {
+            background-image: url("{{ cafe.img_url }}");
+        }
+    </style>
+    <body>
+<!--        <header>-->
+<!--            <h1 class="site-heading text-center text-faded d-none d-lg-block">-->
+<!--                <span class="site-heading-upper text-primary mb-3">A Free Bootstrap Business Theme</span>-->
+<!--                <span class="site-heading-lower">Business Casual</span>-->
+<!--            </h1>-->
+<!--        </header>-->
+        {% include "navigation.html" %}
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <h2 class="section-heading mb-5">
+<!--                                <span class="section-heading-upper">Come On In</span>-->
+                                <span class="section-heading-lower"><strong>{{ cafe.name }}</stron></span>
+                            </h2>
+                            <div class="google-map">
+                                <iframe src="{{ cafe.map_url }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                            <p class="address mb-2">
+                                <em>
+                                    Location: {{ cafe.location }}
+                                    <br />
+                                    Seats: {{ cafe.seats }} &emsp; Price: {{ cafe.coffee_price }}
+                                </em>
+                            </p>
+                            <p class="mb-0">
+                                {% if cafe.has_toilet: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/restrooms_32.png')}}">
+                                {% endif %}
+                                {% if cafe.has_wifi: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/wifi_32.png')}}">
+                                {% endif %}
+                                {% if cafe.can_take_calls: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/telephone-call_32.png')}}">
+                                {% endif %}
+                                {% if cafe.has_sockets: %}
+                                    &emsp;<img src="{{ url_for('static', filename='assets/img/outlet.png')}}">
+                                {% endif %}
+                            </p>
+                            {% if current_user.id == 1: %}
+                                <br><a href="{{ url_for('edit_cafe', id=cafe.id) }}">Edit Cafe</a>&emsp;<a href="{{ url_for('remove_cafe', id=cafe.id) }}">Remove Cafe</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% include "footer.html" %}>
+    </body>
+</html>
